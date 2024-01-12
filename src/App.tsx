@@ -1,9 +1,17 @@
-import React from 'react';
-import { Layout } from '@/components/Layout/Layout';
+import React, { createContext } from 'react';
 import './styles/index.sass';
+import { Navigation } from '@/navigation/Navigation';
+
+export interface AppContext {}
+
+export const Context = createContext<AppContext>(null);
 
 function App() {
-  return <Layout>content</Layout>;
+  return (
+    <Context.Provider value={{}}>
+      <Navigation />
+    </Context.Provider>
+  );
 }
 
 export default App;
