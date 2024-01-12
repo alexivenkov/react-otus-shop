@@ -4,7 +4,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const port = 2233;
+const port = 2234;
 const dist = path.join(__dirname, 'dist');
 const src = path.join(__dirname, 'src');
 const host = 'localhost';
@@ -26,6 +26,7 @@ module.exports = (_, args) => {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
         src,
+        '@': path.join(__dirname, 'src'),
       },
     },
     output: {
