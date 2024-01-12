@@ -6,6 +6,7 @@ import cn from 'clsx';
 import s from './Auth.sass';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { AuthInputs, AuthType } from '@/components/Forms/Auth/types';
+import { useTranslation } from 'react-i18next';
 const { Text } = Typography;
 
 interface AuthProps {
@@ -31,6 +32,8 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
   } = useForm<AuthInputs>({
     resolver: yupResolver(validationSchema),
   });
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -65,7 +68,7 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
 
         <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
           <Button type="primary" htmlType="submit">
-            {props.type == AuthType.signIn ? 'Sign In' : 'Sign Up'}
+            {t(`forms.auth.${props.type}`)}
           </Button>
         </Form.Item>
       </Form>
