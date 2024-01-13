@@ -1,11 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Menu as MenuWrapper } from 'antd';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import cn from 'clsx';
+import s from './Menu.sass';
 
-export const Menu: FC = () => {
-  const items = new Array(5).fill(null).map((_, index) => ({
-    key: index + 1,
-    label: `menu item ${index + 1}`,
-  }));
+export const Menu: FC = memo(() => {
+  const { t } = useTranslation();
 
-  return <MenuWrapper style={{ flex: 1, minWidth: 0 }} mode={'horizontal'} items={items} />;
-};
+  const menu = [
+    {
+      key: 1,
+      label: <Link to={'/profile'}>{t('menu.profile')}</Link>,
+    },
+    {
+      key: 2,
+      label: <Link to={'/categories'}>{t('menu.categories')}</Link>,
+    },
+  ];
+
+  return <MenuWrapper className={cn(s.menu)} mode={'horizontal'} items={menu} />;
+});
+
+Menu.displayName = 'Menu';

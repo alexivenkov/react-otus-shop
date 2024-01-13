@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import { Layout as LayoutWrapper } from 'antd';
 import { HeaderContainer } from '@/components/HeaderContainer/Header';
 import cn from 'clsx';
@@ -10,7 +10,7 @@ interface AppLayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout = memo<AppLayoutProps>(({ children }: AppLayoutProps) => {
+export const Layout: FC<AppLayoutProps> = memo<AppLayoutProps>(({ children }: AppLayoutProps) => {
   return (
     <LayoutWrapper className={cn(s.layout)}>
       {<HeaderContainer />}

@@ -11,6 +11,8 @@ const { Text } = Typography;
 
 interface AuthProps {
   type: AuthType;
+  onSubmit?: (data: AuthInputs) => void;
+  loading: boolean;
 }
 
 const onSubmit: SubmitHandler<AuthInputs> = (data) => {
@@ -38,7 +40,7 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
   return (
     <>
       <Form
-        onFinish={handleSubmit(onSubmit)}
+        onFinish={handleSubmit(props.onSubmit ? props.onSubmit : onSubmit)}
         name={'auth'}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 16 }}
@@ -67,7 +69,7 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
         />
 
         <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={props.loading}>
             {t(`forms.auth.${props.type}`)}
           </Button>
         </Form.Item>

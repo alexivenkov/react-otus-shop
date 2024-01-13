@@ -1,21 +1,26 @@
-import React, { FC } from 'react';
-import { Layout } from 'antd';
+import React, { FC, useContext } from 'react';
+import { Layout, Space } from 'antd';
 import { Menu } from '@/components/HeaderContainer/Menu/Menu';
 import cn from 'clsx';
 import s from './Header.sass';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher/LocaleSwitcher';
+import { Auth } from '@/components/HeaderContainer/Auth/Auth';
+import { AppContext, Context } from '@/App';
 
 const { Header } = Layout;
 
 export const HeaderContainer: FC = () => {
+  const context: AppContext = useContext<AppContext>(Context);
+
   return (
     <Header className={cn(s.header)}>
       <div className={cn(s.headerContent)}>
         <div>Logo</div>
         <Menu />
-        <span>
+        <Space>
+          <Auth token={context.token} />
           <LocaleSwitcher />
-        </span>
+        </Space>
       </div>
     </Header>
   );

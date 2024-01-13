@@ -4,10 +4,13 @@ import './styles/index.sass';
 import { Navigation } from '@/navigation/Navigation';
 import { LOCALE_KEY, storage } from '@/utils/storage';
 import { Locale, Localization } from '@/localization/Localization';
+import { Provider } from 'react-redux';
+import { store } from '@/store/';
 
 export interface AppContext {
   locale: Locale;
   localeSetter: React.Dispatch<SetStateAction<string>>;
+  token: string;
 }
 
 const getLocale = (): Locale => {
@@ -26,10 +29,12 @@ function App() {
   const [locale, setLocale] = useState<Locale>(getLocale());
 
   return (
-    <Context.Provider value={{ locale: locale, localeSetter: setLocale }}>
-      <Localization />
-      <Navigation />
-    </Context.Provider>
+    <Provider store={store}>
+      <Context.Provider value={{ locale: locale, localeSetter: setLocale, token: null }}>
+        <Localization />
+        <Navigation />
+      </Context.Provider>
+    </Provider>
   );
 }
 
