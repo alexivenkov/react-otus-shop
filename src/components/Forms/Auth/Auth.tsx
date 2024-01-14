@@ -7,6 +7,7 @@ import s from './Auth.sass';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { AuthInputs, AuthType } from '@/components/Forms/Auth/types';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 const { Text } = Typography;
 
 interface AuthProps {
@@ -14,10 +15,6 @@ interface AuthProps {
   onSubmit?: (data: AuthInputs) => void;
   loading: boolean;
 }
-
-const onSubmit: SubmitHandler<AuthInputs> = (data) => {
-  console.log(data);
-};
 
 const validationSchema = yup
   .object({
@@ -35,12 +32,18 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
     resolver: yupResolver(validationSchema),
   });
 
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const onSubmit = (data: AuthInputs) => {
+    props.onSubmit ? props.onSubmit(data) : console.log(data);
+    navigate('/profile');
+  };
 
   return (
     <>
       <Form
-        onFinish={handleSubmit(props.onSubmit ? props.onSubmit : onSubmit)}
+        onFinish={handleSubmit(onSubmit)}
         name={'auth'}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 16 }}

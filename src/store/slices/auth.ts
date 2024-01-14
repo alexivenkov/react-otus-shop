@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { State } from '@/store';
 import { AuthState, Status } from '@/store/states';
 import { AuthPayload } from '@/store/payloads';
+import { AuthType } from '@/components/Forms/Auth/types';
 
 export const AUTH_SLICE = 'auth';
 
@@ -18,10 +19,7 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     set: (state: AuthState, action: PayloadAction<AuthState>) => action.payload,
-    signIn: (state: AuthState, action: PayloadAction<AuthPayload>) => {
-      state.status = Status.loading;
-    },
-    signUp: (state: AuthState, action: PayloadAction<AuthPayload>) => {
+    auth: (state: AuthState, action: PayloadAction<AuthPayload>) => {
       state.status = Status.loading;
     },
     signOut: (state: AuthState) => {

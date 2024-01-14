@@ -2,6 +2,7 @@ export const resources = {
   en: {
     translation: {
       menu: {
+        home: 'Home',
         profile: 'Profile',
         categories: 'Categories',
       },
@@ -19,6 +20,7 @@ export const resources = {
   ru: {
     translation: {
       menu: {
+        home: 'Домой',
         profile: 'Профиль',
         categories: 'Категории',
       },

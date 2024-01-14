@@ -19,7 +19,8 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
 
   const onSubmit = (data: AuthInputs) => {
     dispatch(
-      authActions[props.type]({
+      authActions.auth({
+        type: props.type,
         email: data.email,
         password: data.password,
       })
