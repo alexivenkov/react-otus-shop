@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { init } from '@/store/slices/init';
 import { auth } from '@/store/slices/auth';
+import { profile } from '@/store/slices/profile';
 import { sagas } from '@/store/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -10,6 +11,7 @@ export const store = configureStore({
   reducer: {
     init,
     auth,
+    profile,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
 });

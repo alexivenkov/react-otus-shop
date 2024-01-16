@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { State } from '@/store/index';
+import { State } from '@/store';
 import { InitializationState, Status } from '@/store/states';
+
+export const INIT_SLICE = 'init';
 
 const initialState: InitializationState = {
   status: Status.idle,
@@ -8,7 +10,7 @@ const initialState: InitializationState = {
 };
 
 const initSlice = createSlice({
-  name: 'init',
+  name: INIT_SLICE,
   initialState: initialState,
   reducers: {
     run: (state: InitializationState) => {

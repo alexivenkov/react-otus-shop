@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { State } from '@/store';
 import { AuthState, Status } from '@/store/states';
 import { AuthPayload } from '@/store/payloads';
-import { AuthType } from '@/components/Forms/Auth/types';
 
 export const AUTH_SLICE = 'auth';
 
@@ -39,6 +38,9 @@ export const authSelectors = {
   },
   status: (state: State): Status => {
     return state.auth.status;
+  },
+  error: (state: State): Error => {
+    return state.auth.error;
   },
 };
 

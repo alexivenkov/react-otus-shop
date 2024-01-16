@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Auth as AuthForm } from '@/components/Forms/Auth/Auth';
 import { AuthInputs, AuthType } from '@/components/Forms/Auth/types';
 import cn from 'clsx';
@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions, authSelectors } from '@/store/slices/auth';
 import { Status } from '@/store/states';
+import { Modal } from 'antd';
+import { useNotification } from '@/hooks/useNotification';
 
 interface AuthProps {
   type: AuthType;
@@ -15,6 +17,8 @@ interface AuthProps {
 export const Auth: FC<AuthProps> = (props: AuthProps) => {
   const dispatch = useDispatch();
   const loading = useSelector(authSelectors.status);
+  const error = useSelector(authSelectors.error);
+  const { showError } = useNotification();
   const { t } = useTranslation();
 
   const onSubmit = (data: AuthInputs) => {
@@ -26,6 +30,12 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
       })
     );
   };
+
+  useEffect(() => {
+    if (error) {
+      showError(error);
+    }
+  }, [error]);
 
   return (
     <>

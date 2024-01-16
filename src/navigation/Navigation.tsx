@@ -10,6 +10,7 @@ import { initSelectors } from '@/store/slices/init';
 import { Status } from '@/store/states';
 import { authSelectors } from '@/store/slices/auth';
 import { ProtectedRoute } from '@/navigation/ProtectedRoute';
+import { Profile } from '@/screens/Profile/Profile';
 
 export const Navigation: FC = () => {
   const init = useSelector(initSelectors.get);
@@ -27,7 +28,7 @@ export const Navigation: FC = () => {
                 path={'/profile'}
                 element={
                   <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
-                    <Home />
+                    <Profile />
                   </ProtectedRoute>
                 }
               />

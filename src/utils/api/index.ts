@@ -1,4 +1,5 @@
 import { storage, TOKEN_KEY } from '@/utils/storage';
+import { APIError, ServerError } from '@/utils/api/errors';
 
 const apiUrl = 'http://19429ba06ff2.vps.myjino.ru',
   apiPath = '/api';
@@ -58,13 +59,16 @@ class API {
       });
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+        const error = (await response.json()) as ServerError;
+        console.log(error);
+
+        throw new APIError(response.status, error);
       }
 
       return (await response.json()) as T;
-    } catch (error) {
-      console.error('API POST Error:', error);
-      throw error;
+    } catch (e) {
+      //console.error(e);
+      throw e;
     }
   };
 }

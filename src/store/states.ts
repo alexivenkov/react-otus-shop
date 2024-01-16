@@ -16,4 +16,13 @@ export interface InitializationState {
   error: Error;
 }
 
+export interface Profile {
+  id: string;
+  email: string;
+  name: string;
+  signUpDate: Date;
+}
+
 export type AuthState = State<{ token: string }>;
+
+export type ProfileState = State<Profile>;

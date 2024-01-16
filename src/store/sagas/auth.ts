@@ -6,10 +6,8 @@ import { AuthType } from '@/components/Forms/Auth/types';
 import { api } from '@/utils/api';
 import { AuthPayload } from '@/store/payloads';
 import { storage, TOKEN_KEY } from '@/utils/storage';
-
-interface AuthResponse {
-  token: string;
-}
+import { AuthResponse } from '@/utils/api/responses';
+import { profileActions } from '@/store/slices/profile';
 
 function* authSaga(action: PayloadAction<AuthPayload>): Generator {
   try {
@@ -25,9 +23,9 @@ function* authSaga(action: PayloadAction<AuthPayload>): Generator {
     );
 
     storage.set(TOKEN_KEY, response.token);
-  } catch (e) {
-    console.log(e);
 
+    yield put(profileActions.load());
+  } catch (e) {
     yield put(
       authActions.set({
         status: Status.failed,
