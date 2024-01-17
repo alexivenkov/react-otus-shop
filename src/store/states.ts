@@ -1,3 +1,5 @@
+import { Category } from '@/models/category';
+
 export enum Status {
   idle = 'idle',
   loading = 'loading',
@@ -26,3 +28,5 @@ export interface Profile {
 export type AuthState = State<{ token: string }>;
 
 export type ProfileState = State<Profile>;
+
+export type CategoriesState = State<Category[]> & { total: number };
