@@ -1,76 +1,92 @@
 import { storage, TOKEN_KEY } from '@/utils/storage';
 import { APIError, ServerError } from '@/utils/api/errors';
 
-const apiUrl = 'http://19429ba06ff2.vps.myjino.ru',
+export const apiUrl = 'http://19429ba06ff2.vps.myjino.ru',
   apiPath = '/api';
 
 class API {
-  protected baseUrl: string;
-  protected apiPath: string;
+  private baseUrl: string;
+  private apiPath: string;
 
   constructor(baseUrl: string, apiPath: string) {
     this.baseUrl = baseUrl;
     this.apiPath = apiPath;
   }
 
-  public get = async <T>(
-    endpoint: string,
-    params: Record<string, string | number>,
-    headers: Record<string, string> = {}
-  ): Promise<T> => {
+  private getFullUrl(endpoint: string, params?: Record<string, string | number>): URL {
     const url = new URL(`${this.apiPath}/${endpoint}`, this.baseUrl);
-    Object.keys(params).forEach((key) => url.searchParams.append(key, params[key].toString()));
-
-    try {
-      const response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          ...headers,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      return (await response.json()) as T;
-    } catch (error) {
-      console.error('API GET Error:', error);
-      throw error;
+    if (params) {
+      Object.keys(params).forEach((key) => url.searchParams.append(key, params[key].toString()));
     }
-  };
+    return url;
+  }
 
-  public post = async <T>(
+  private async performRequest<T>(
+    method: string,
     endpoint: string,
-    data: Record<string, string | number> = {},
-    headers: Record<string, string> = {}
-  ): Promise<T> => {
-    const url = new URL(`${this.apiPath}/${endpoint}`, this.baseUrl);
+    data?: Record<string, string | number>,
+    customHeaders?: Record<string, string>,
+    url?: URL
+  ): Promise<T> {
+    const requestUrl = url || this.getFullUrl(endpoint);
+
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      ...customHeaders,
+    });
 
     try {
-      const response = await fetch(url.toString(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...headers,
-        },
-        body: JSON.stringify(data),
+      const response = await fetch(requestUrl.toString(), {
+        method,
+        headers,
+        body: method !== 'GET' && data ? JSON.stringify(data) : undefined,
       });
 
       if (!response.ok) {
         const error = (await response.json()) as ServerError;
-        console.log(error);
-
+        console.error(`API ${method} Error:`, error);
         throw new APIError(response.status, error);
       }
 
       return (await response.json()) as T;
-    } catch (e) {
-      //console.error(e);
-      throw e;
+    } catch (error) {
+      console.error(`API ${method} Error:`, error);
+      throw error;
     }
-  };
+  }
+
+  public get<T>(
+    endpoint: string,
+    params?: Record<string, string | number>,
+    headers?: Record<string, string>
+  ): Promise<T> {
+    const url = this.getFullUrl(endpoint, params);
+    return this.performRequest('GET', endpoint, undefined, headers, url);
+  }
+
+  public post<T>(
+    endpoint: string,
+    data?: Record<string, string | number>,
+    headers?: Record<string, string>
+  ): Promise<T> {
+    return this.performRequest('POST', endpoint, data, headers);
+  }
+
+  public put<T>(
+    endpoint: string,
+    data?: Record<string, string | number>,
+    headers?: Record<string, string>
+  ): Promise<T> {
+    return this.performRequest('PUT', endpoint, data, headers);
+  }
+
+  public delete<T>(
+    endpoint: string,
+    data?: Record<string, string | number>,
+    headers?: Record<string, string>
+  ): Promise<T> {
+    return this.performRequest('DELETE', endpoint, data, headers);
+  }
 }
 
 export const getAuthHeader = () => {

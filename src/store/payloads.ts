@@ -11,3 +11,9 @@ export interface PaginationRequest {
   pagination: Omit<Pagination, 'total'>;
   sorting: Sorting;
 }
+
+export interface CategoryPayload {
+  id?: string;
+  name: string;
+  photo?: string;
+}

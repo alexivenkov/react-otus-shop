@@ -23,6 +23,7 @@ export interface Profile {
   email: string;
   name: string;
   signUpDate: Date;
+  isAdmin: boolean;
 }
 
 export type AuthState = State<{ token: string }>;

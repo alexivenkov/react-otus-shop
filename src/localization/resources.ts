@@ -24,6 +24,17 @@ export const resources = {
           password: 'Password',
           signOut: 'Sign Out',
         },
+        category: {
+          create: 'New Category',
+          update: 'Edit Category',
+          save: 'Save',
+          name: 'Name',
+          photo: 'Photo',
+          upload: {
+            success: 'file uploaded successfully',
+            invalid: 'filetype is not valid',
+          },
+        },
       },
       messages: {
         passwordUpdated: 'Password Updated Successfully',
@@ -58,6 +69,17 @@ export const resources = {
           email: 'Электронный Адрес',
           password: 'Пароль',
           signOut: 'Выйти',
+        },
+        category: {
+          create: 'Новая категория',
+          update: 'Редактировать Категорию',
+          save: 'Сохранить',
+          name: 'Название',
+          photo: 'Фото',
+          upload: {
+            success: 'файл успешно загружен',
+            invalid: 'не валидный тип',
+          },
         },
       },
       messages: {

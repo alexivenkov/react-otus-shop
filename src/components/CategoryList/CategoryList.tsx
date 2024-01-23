@@ -2,12 +2,13 @@ import React, { FC, memo } from 'react';
 import { Category as CategoryModel } from '@/models/category';
 import { Empty, List } from 'antd';
 import { Category } from '@/components/Category/Category';
-import { Pagination } from '@/utils/api/responses';
 
 interface CategoryListProps {
   categories: CategoryModel[];
   total: number;
   onChangePage: (page: number, pageSize: number) => void;
+  onEdit: (e: React.MouseEvent<HTMLElement>) => void;
+  onDelete: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const CategoryList: FC<CategoryListProps> = memo((props: CategoryListProps) => {
@@ -16,18 +17,22 @@ export const CategoryList: FC<CategoryListProps> = memo((props: CategoryListProp
       {!props.categories.length && <Empty description={''} />}
       {props.categories.length > 0 && (
         <List
-          grid={{ gutter: 16, column: 4 }}
+          grid={{ gutter: 16, column: props.categories.length < 5 ? props.categories.length : 4 }}
           dataSource={props.categories}
-          pagination={{
-            position: 'bottom',
-            align: 'center',
-            onChange: props.onChangePage,
-            pageSize: 8,
-            total: props.total,
-          }}
+          pagination={
+            props.total < 8
+              ? false
+              : {
+                  position: 'bottom',
+                  align: 'center',
+                  onChange: props.onChangePage,
+                  pageSize: 8,
+                  total: props.total,
+                }
+          }
           renderItem={(item) => (
             <List.Item>
-              <Category name={item.name} photo={item.photo} />
+              <Category category={item} onEdit={props.onEdit} onDelete={props.onDelete} />
             </List.Item>
           )}
         />

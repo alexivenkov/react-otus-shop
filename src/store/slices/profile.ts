@@ -30,6 +30,7 @@ export const profileSelectors = {
   get: (state: State): State['profile'] => {
     return state.profile;
   },
+  isAdmin: (state: State): boolean => state.profile.data?.isAdmin || false,
 };
 
 export const profile = profileSlice.reducer;

@@ -6,6 +6,8 @@ import { Status } from '@/store/states';
 import { serializeError } from 'serialize-error';
 import { PayloadAction } from '@reduxjs/toolkit';
 
+const adminEmail = 'alex.ivenkov@gmail.com';
+
 function* loadProfileSaga(): Generator {
   try {
     const profile = (yield call([api, api.get], 'profile', {}, { ...getAuthHeader() })) as ProfileResponse;
@@ -19,6 +21,7 @@ function* loadProfileSaga(): Generator {
           email: profile.email,
           name: profile.name,
           signUpDate: profile.signUpDate,
+          isAdmin: profile.email == adminEmail,
         },
       })
     );
@@ -34,6 +37,7 @@ function* loadProfileSaga(): Generator {
           email: null,
           name: null,
           signUpDate: null,
+          isAdmin: false,
         },
       })
     );
@@ -58,6 +62,7 @@ function* updateProfileSaga(action: PayloadAction<{ name: string }>): Generator 
           email: profile.email,
           name: profile.name,
           signUpDate: profile.signUpDate,
+          isAdmin: profile.email == adminEmail,
         },
       })
     );
@@ -73,6 +78,7 @@ function* updateProfileSaga(action: PayloadAction<{ name: string }>): Generator 
           email: null,
           name: null,
           signUpDate: null,
+          isAdmin: false,
         },
       })
     );

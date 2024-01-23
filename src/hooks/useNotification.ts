@@ -11,6 +11,11 @@ export const useNotification = () => {
         message: title,
         description: message,
       }),
+    showWarning: (title: string, message = '') =>
+      notification.warning({
+        message: title,
+        description: message,
+      }),
     showError: (error: Error) => {
       if (error instanceof APIError) {
         error.errors.errors.forEach((e) => {
