@@ -1,4 +1,5 @@
 import { Category } from '@/models/category';
+import { Product } from '@/models/product';
 
 export enum Status {
   idle = 'idle',
@@ -7,9 +8,16 @@ export enum Status {
   failed = 'failed',
 }
 
-export interface State<T> {
+export interface Meta {
   status: Status;
   error: Error;
+}
+
+export interface Countable {
+  total: number;
+}
+
+export interface State<T> extends Meta {
   data: T;
 }
 
@@ -27,7 +35,7 @@ export interface Profile {
 }
 
 export type AuthState = State<{ token: string }>;
-
 export type ProfileState = State<Profile>;
 
-export type CategoriesState = State<Category[]> & { total: number };
+export type CategoriesState = State<Category[]> & Countable;
+export type ProductsState = State<Product[]> & Countable;

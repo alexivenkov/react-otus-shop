@@ -20,11 +20,15 @@ export const Menu: FC = memo(() => {
   const protectedMenu = [
     {
       key: 2,
-      label: <Link to={'/profile'}>{t('menu.profile')}</Link>,
+      label: <Link to={'/categories'}>{t('menu.categories')}</Link>,
     },
     {
       key: 3,
-      label: <Link to={'/categories'}>{t('menu.categories')}</Link>,
+      label: <Link to={'/products'}>{t('menu.products')}</Link>,
+    },
+    {
+      key: 4,
+      label: <Link to={'/profile'}>{t('menu.profile')}</Link>,
     },
   ];
 

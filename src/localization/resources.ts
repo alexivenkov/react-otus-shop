@@ -5,6 +5,7 @@ export const resources = {
         home: 'Home',
         profile: 'Profile',
         categories: 'Categories',
+        products: 'Products',
       },
       forms: {
         profile: {
@@ -51,6 +52,7 @@ export const resources = {
         home: 'Домой',
         profile: 'Профиль',
         categories: 'Категории',
+        products: 'Товары',
       },
       forms: {
         profile: {

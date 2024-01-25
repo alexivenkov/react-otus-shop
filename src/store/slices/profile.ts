@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { State } from '@/store';
-import { ProfileState, Status } from '@/store/states';
+import { Meta, ProfileState, Status } from '@/store/states';
 
 export const PROFILE_SLICE = 'profile';
 
@@ -15,6 +15,15 @@ export const profileSlice = createSlice({
   initialState: initialSate,
   reducers: {
     set: (state: ProfileState, action: PayloadAction<ProfileState>) => action.payload,
+    setMeta: (state: ProfileState, action: PayloadAction<Partial<Meta>>) => {
+      if (action.payload.status) {
+        state.status = action.payload.status;
+      }
+
+      if (action.payload.error) {
+        state.error = action.payload.error;
+      }
+    },
     load: (state: ProfileState) => {
       state.status = Status.loading;
     },

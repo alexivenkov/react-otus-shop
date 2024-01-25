@@ -28,6 +28,19 @@ export const Category: FC<CategoryProps> = memo((props: CategoryProps) => {
             />
           </>
         }
+        actions={[
+          <Button key={`edit.${props.category?.id}`} onClick={props.onEdit} type={'text'} data-id={props.category?.id}>
+            <EditOutlined />
+          </Button>,
+          <Button
+            key={`delete.${props.category?.id}`}
+            onClick={props.onDelete}
+            type={'text'}
+            data-id={props.category?.id}
+          >
+            <DeleteOutlined />
+          </Button>,
+        ]}
         className={cn(s.category)}
       >
         <Meta
@@ -35,16 +48,6 @@ export const Category: FC<CategoryProps> = memo((props: CategoryProps) => {
             <>
               <Text className={cn(s.categoryTitle)}>{props.category?.name}</Text>
             </>
-          }
-          description={
-            <Space.Compact>
-              <Button onClick={props.onEdit} type={'text'} data-id={props.category?.id}>
-                <EditOutlined />
-              </Button>
-              <Button onClick={props.onDelete} type={'text'} data-id={props.category?.id}>
-                <DeleteOutlined />
-              </Button>
-            </Space.Compact>
           }
         />
       </Card>

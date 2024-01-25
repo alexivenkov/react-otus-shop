@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { State } from '@/store';
-import { CategoriesState, Status } from '@/store/states';
+import { CategoriesState, Meta, Status } from '@/store/states';
 import { CategoryPayload, PaginationRequest } from '@/store/payloads';
 import { Category } from '@/models/category';
 
@@ -18,11 +18,18 @@ export const categoriesSlice = createSlice({
   initialState: initialState,
   reducers: {
     set: (state: CategoriesState, action: PayloadAction<CategoriesState>) => action.payload,
-    setStatus: (state: CategoriesState, action: PayloadAction<{ status: Status; error: Error }>) => {
-      state.status = action.payload.status;
-      state.error = action.payload.error;
+    setMeta: (state: CategoriesState, action: PayloadAction<Partial<Meta>>) => {
+      if (action.payload.status) {
+        state.status = action.payload.status;
+      }
+
+      if (action.payload.error) {
+        state.error = action.payload.error;
+      }
     },
-    load: (state: CategoriesState, action: PayloadAction<PaginationRequest>) => {},
+    load: (state: CategoriesState, action: PayloadAction<PaginationRequest>) => {
+      state.status = Status.loading;
+    },
     create: (state: CategoriesState, action: PayloadAction<CategoryPayload>) => {
       state.status = Status.loading;
     },

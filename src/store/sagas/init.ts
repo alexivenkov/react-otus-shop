@@ -5,6 +5,7 @@ import { authActions } from '@/store/slices/auth';
 import { Status } from '@/store/states';
 import { profileActions } from '@/store/slices/profile';
 import { categoriesActions } from '@/store/slices/categories';
+import { productsActions } from '@/store/slices/products';
 
 export function* initializeSaga(): Generator {
   const token = storage.get(TOKEN_KEY);
@@ -22,6 +23,12 @@ export function* initializeSaga(): Generator {
     yield put(profileActions.load());
     yield put(
       categoriesActions.load({
+        pagination: { pageNumber: 1, pageSize: 8 },
+        sorting: { type: 'ASC', field: 'name' },
+      })
+    );
+    yield put(
+      productsActions.load({
         pagination: { pageNumber: 1, pageSize: 8 },
         sorting: { type: 'ASC', field: 'name' },
       })

@@ -31,7 +31,7 @@ function* loadCategoriesSaga(action: PayloadAction<PaginationRequest>): Generato
     );
   } catch (e) {
     yield put(
-      categoriesActions.setStatus({
+      categoriesActions.setMeta({
         status: Status.failed,
         error: e,
       })
@@ -65,7 +65,7 @@ function* createCategorySaga(action: PayloadAction<CategoryPayload>): Generator 
     );
   } catch (e) {
     yield put(
-      categoriesActions.setStatus({
+      categoriesActions.setMeta({
         status: Status.failed,
         error: e,
       })
@@ -100,7 +100,7 @@ function* editCategorySaga(action: PayloadAction<CategoryPayload>): Generator {
     );
   } catch (e) {
     yield put(
-      categoriesActions.setStatus({
+      categoriesActions.setMeta({
         status: Status.failed,
         error: e,
       })
@@ -121,11 +121,21 @@ function* deleteCategorySaga(action: PayloadAction<{ id: string }>): Generator {
         total: categories.length,
       })
     );
+    yield put(
+      categoriesActions.setMeta({
+        status: Status.idle,
+      })
+    );
   } catch (e) {
     yield put(
-      categoriesActions.setStatus({
+      categoriesActions.setMeta({
         status: Status.failed,
         error: e,
+      })
+    );
+    yield put(
+      categoriesActions.setMeta({
+        status: Status.idle,
       })
     );
   }

@@ -1,9 +1,8 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { profileActions } from '@/store/slices/profile';
 import { api, getAuthHeader } from '@/utils/api';
 import { ProfileResponse } from '@/utils/api/responses';
 import { Status } from '@/store/states';
-import { serializeError } from 'serialize-error';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 const adminEmail = 'alex.ivenkov@gmail.com';
@@ -14,7 +13,7 @@ function* loadProfileSaga(): Generator {
 
     yield put(
       profileActions.set({
-        status: Status.idle,
+        status: Status.succeeded,
         error: null,
         data: {
           id: profile.id,
@@ -25,22 +24,11 @@ function* loadProfileSaga(): Generator {
         },
       })
     );
+    yield put(profileActions.setMeta({ status: Status.idle }));
   } catch (e) {
     console.error(e);
 
-    yield put(
-      profileActions.set({
-        status: Status.failed,
-        error: serializeError(e),
-        data: {
-          id: null,
-          email: null,
-          name: null,
-          signUpDate: null,
-          isAdmin: false,
-        },
-      })
-    );
+    yield put(profileActions.setMeta({ status: Status.failed, error: e }));
   }
 }
 
@@ -67,21 +55,9 @@ function* updateProfileSaga(action: PayloadAction<{ name: string }>): Generator 
       })
     );
   } catch (e) {
-    console.log(serializeError(e));
+    console.error(e);
 
-    yield put(
-      profileActions.set({
-        status: Status.failed,
-        error: serializeError(e),
-        data: {
-          id: null,
-          email: null,
-          name: null,
-          signUpDate: null,
-          isAdmin: false,
-        },
-      })
-    );
+    yield put(profileActions.setMeta({ status: Status.failed, error: e }));
   }
 }
 

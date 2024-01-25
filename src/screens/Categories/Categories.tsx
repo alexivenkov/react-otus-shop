@@ -82,10 +82,20 @@ export const Categories: FC = () => {
   useEffect(() => {
     if (categories.status == Status.succeeded) {
       showSuccess('success');
+      dispatch(
+        categoriesActions.setMeta({
+          status: Status.idle,
+        })
+      );
     }
 
     if (categories.status == Status.failed) {
       showError(categories.error);
+      dispatch(
+        categoriesActions.setMeta({
+          status: Status.idle,
+        })
+      );
     }
   }, [categories.status]);
 

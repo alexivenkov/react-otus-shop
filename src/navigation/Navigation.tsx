@@ -14,6 +14,7 @@ import { Profile } from '@/screens/Profile/Profile';
 import { Category } from '@/components/Category/Category';
 import { CategoryList } from '@/components/CategoryList/CategoryList';
 import { Categories } from '@/screens/Categories/Categories';
+import { Products } from '@/screens/Products/Products';
 
 export const Navigation: FC = () => {
   const init = useSelector(initSelectors.get);
@@ -28,6 +29,22 @@ export const Navigation: FC = () => {
             <Routes>
               <Route index element={<Home />} />
               <Route
+                path={'/categories'}
+                element={
+                  <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
+                    <Categories />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={'/products'}
+                element={
+                  <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
+                    <Products />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path={'/profile'}
                 element={
                   <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
@@ -35,7 +52,6 @@ export const Navigation: FC = () => {
                   </ProtectedRoute>
                 }
               />
-              <Route path={'/categories'} element={<Categories />} />
               <Route
                 path={'/sign-in'}
                 element={

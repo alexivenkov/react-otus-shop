@@ -5,7 +5,6 @@ import { profileActions, profileSelectors } from '@/store/slices/profile';
 import { Status } from '@/store/states';
 import { ChangePasswordInputs, ProfileInfoInputs } from '@/components/Forms/Profile/types';
 import { api, getAuthHeader } from '@/utils/api';
-import { APIError } from '@/utils/api/errors';
 import { useNotification } from '@/hooks/useNotification';
 import { useTranslation } from 'react-i18next';
 
@@ -44,10 +43,12 @@ export const Profile: FC = () => {
   useEffect(() => {
     if (profile.status == Status.succeeded) {
       showSuccess('Profile Updated');
+      dispatch(profileActions.setMeta({ status: Status.idle }));
     }
 
     if (profile.status == Status.failed) {
       showError(profile.error);
+      dispatch(profileActions.setMeta({ status: Status.idle }));
     }
   }, [profile.status]);
 
