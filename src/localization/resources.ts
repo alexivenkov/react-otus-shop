@@ -36,6 +36,11 @@ export const resources = {
             invalid: 'filetype is not valid',
           },
         },
+        product: {
+          sale: 'Sale!',
+          price: 'Price',
+          description: 'Description',
+        },
       },
       messages: {
         passwordUpdated: 'Password Updated Successfully',
@@ -82,6 +87,11 @@ export const resources = {
             success: 'файл успешно загружен',
             invalid: 'не валидный тип',
           },
+        },
+        product: {
+          sale: 'Распродажа!',
+          price: 'Цена',
+          description: 'Описание',
         },
       },
       messages: {

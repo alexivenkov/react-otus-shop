@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProductsState, Status } from '@/store/states';
+import { Meta, ProductsState, Status } from '@/store/states';
 import { PaginationRequest } from '@/store/payloads';
+import { State } from '@/store';
 
 export const PRODUCTS_SLICE = 'products';
 
@@ -16,12 +17,25 @@ export const productsSlice = createSlice({
   initialState: initialState,
   reducers: {
     set: (state: ProductsState, action: PayloadAction<ProductsState>) => action.payload,
+    setMeta: (state: ProductsState, action: PayloadAction<Meta>) => {
+      if (action.payload.status) {
+        state.status = action.payload.status;
+      }
+
+      if (action.payload.error) {
+        state.error = action.payload.error;
+      }
+    },
     load: (state: ProductsState, action: PayloadAction<PaginationRequest>) => {},
   },
 });
 
 export const productsActions = productsSlice.actions;
 
-export const productsSelectors = {};
+export const productsSelectors = {
+  get: (state: State): State['products'] => {
+    return state.products;
+  },
+};
 
 export const products = productsSlice.reducer;

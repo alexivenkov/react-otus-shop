@@ -6,6 +6,8 @@ import { Category } from '@/components/Category/Category';
 interface CategoryListProps {
   categories: CategoryModel[];
   total: number;
+  canEdit: boolean;
+  canDelete: boolean;
   onChangePage: (page: number, pageSize: number) => void;
   onEdit: (e: React.MouseEvent<HTMLElement>) => void;
   onDelete: (e: React.MouseEvent<HTMLElement>) => void;
@@ -32,7 +34,13 @@ export const CategoryList: FC<CategoryListProps> = memo((props: CategoryListProp
           }
           renderItem={(item) => (
             <List.Item>
-              <Category category={item} onEdit={props.onEdit} onDelete={props.onDelete} />
+              <Category
+                category={item}
+                canEdit={props.canEdit}
+                canDelete={props.canDelete}
+                onEdit={props.onEdit}
+                onDelete={props.onDelete}
+              />
             </List.Item>
           )}
         />

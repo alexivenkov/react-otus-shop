@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+
 export enum ErrorCode {
   ERR_INCORRECT_EMAIL_OR_PASSWORD = 'ERR_INCORRECT_EMAIL_OR_PASSWORD', // Если не корректный email или пароль
   ERR_ACCOUNT_ALREADY_EXIST = 'ERR_ACCOUNT_ALREADY_EXIST', // При регистрации если пользователь уже существует
@@ -33,13 +35,31 @@ export class APIError extends Error {
   public errors: ServerError;
 
   constructor(status: number, errors: ServerError) {
-    super('API ERROR HERE');
+    super('api error');
 
-    // Set the prototype explicitly to ensure the correct inheritance
-    //Object.setPrototypeOf(this, APIError.prototype);
-
-    // Set custom properties for server error details
     this.status = status;
     this.errors = errors;
+  }
+}
+
+export class NotFoundError extends Error {
+  public status: number;
+
+  constructor(message: string) {
+    super(message);
+
+    this.name = 'NotFoundError';
+    this.status = StatusCodes.NOT_FOUND;
+  }
+}
+
+export class ServerError extends Error {
+  public status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+
+    this.name = 'ServerError';
+    this.status = status;
   }
 }

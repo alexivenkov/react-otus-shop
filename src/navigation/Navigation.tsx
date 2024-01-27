@@ -14,7 +14,9 @@ import { Profile } from '@/screens/Profile/Profile';
 import { Category } from '@/components/Category/Category';
 import { CategoryList } from '@/components/CategoryList/CategoryList';
 import { Categories } from '@/screens/Categories/Categories';
-import { Products } from '@/screens/Products/Products';
+import { ProductsList } from '@/screens/ProductsList/ProductsList';
+import { ProductFull } from '@/components/ProductFull/ProductFull';
+import { Product } from '@/screens/Product/Product';
 
 export const Navigation: FC = () => {
   const init = useSelector(initSelectors.get);
@@ -40,7 +42,15 @@ export const Navigation: FC = () => {
                 path={'/products'}
                 element={
                   <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
-                    <Products />
+                    <ProductsList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={'/products/:productId'}
+                element={
+                  <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
+                    <Product />
                   </ProtectedRoute>
                 }
               />

@@ -1,12 +1,13 @@
 import { storage, TOKEN_KEY } from '@/utils/storage';
-import { APIError, ServerError } from '@/utils/api/errors';
+import { APIError, NotFoundError, ServerError } from '@/utils/api/errors';
+import { StatusCodes } from 'http-status-codes';
 
 export const apiUrl = 'http://19429ba06ff2.vps.myjino.ru',
   apiPath = '/api';
 
 class API {
-  private baseUrl: string;
-  private apiPath: string;
+  private readonly baseUrl: string;
+  private readonly apiPath: string;
 
   constructor(baseUrl: string, apiPath: string) {
     this.baseUrl = baseUrl;
@@ -43,6 +44,14 @@ class API {
       });
 
       if (!response.ok) {
+        if (response.status == StatusCodes.NOT_FOUND) {
+          throw new NotFoundError('not found');
+        }
+
+        if (response.status >= 500) {
+          throw new ServerError(response.status, 'server error');
+        }
+
         const error = (await response.json()) as ServerError;
         console.error(`API ${method} Error:`, error);
         throw new APIError(response.status, error);

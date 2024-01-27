@@ -18,7 +18,7 @@ export const Categories: FC = () => {
 
   const dispatch = useDispatch();
   const total = useSelector(categoriesSelectors.total);
-  const canCreateCategory = useSelector(profileSelectors.isAdmin);
+  const isAdmin = useSelector(profileSelectors.isAdmin);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<Category>(null);
   const { showSuccess, showError } = useNotification();
@@ -102,10 +102,12 @@ export const Categories: FC = () => {
   return (
     <>
       <Space direction={'vertical'}>
-        {canCreateCategory && <Button onClick={() => setShowModal(true)}>{t('forms.category.create')}</Button>}
+        {isAdmin && <Button onClick={() => setShowModal(true)}>{t('forms.category.create')}</Button>}
         <CategoryList
           categories={categories.data}
           total={total}
+          canEdit={isAdmin}
+          canDelete={isAdmin}
           onChangePage={onChangePage}
           onEdit={onEdit}
           onDelete={onDelete}
