@@ -31,15 +31,22 @@ export const resources = {
           save: 'Save',
           name: 'Name',
           photo: 'Photo',
-          upload: {
-            success: 'file uploaded successfully',
-            invalid: 'filetype is not valid',
-          },
         },
         product: {
+          create: 'New Product',
+          update: 'Update Product',
+          save: 'Save',
           sale: 'Sale!',
           price: 'Price',
           description: 'Description',
+          name: 'Name',
+          desc: 'Description',
+          category: 'Category',
+          oldPrice: 'Old Price',
+        },
+        upload: {
+          success: 'file uploaded successfully',
+          invalid: 'filetype is not valid',
         },
       },
       messages: {
@@ -89,9 +96,16 @@ export const resources = {
           },
         },
         product: {
+          create: 'Новый товар',
+          update: 'Редактировать Товар',
+          save: 'Сохранить',
           sale: 'Распродажа!',
           price: 'Цена',
           description: 'Описание',
+          name: 'Название',
+          desc: 'Описание',
+          category: 'Категория',
+          oldPrice: 'Старая Цена',
         },
       },
       messages: {

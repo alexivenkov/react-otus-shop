@@ -1,16 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import { CategoryInputs } from '@/components/Forms/Category/types';
-import { UploadOutlined } from '@ant-design/icons';
 import cn from 'clsx';
 import s from './Category.sass';
-import { Button, Form, Input, Space, Typography, Upload, UploadProps } from 'antd';
-import { apiPath, apiUrl, getAuthHeader } from '@/utils/api';
-import { useNotification } from '@/hooks/useNotification';
+import { Button, Form, Input, Typography } from 'antd';
 import { Category as CategoryModel } from '@/models/category';
+import { UploadPhotoInput } from '@/components/Forms/Common/UploadPhotoInput/UploadPhotoInput';
 
 const { Text } = Typography;
 
@@ -42,31 +40,6 @@ export const Category: FC<CategoryProps> = (props: CategoryProps) => {
   });
 
   const { t } = useTranslation();
-  const { showSuccess, showWarning } = useNotification();
-
-  const uploadParams: UploadProps = {
-    name: 'file',
-    action: `${apiUrl}${apiPath}/upload`,
-    headers: {
-      ...getAuthHeader(),
-    },
-    showUploadList: false,
-    beforeUpload: (file) => {
-      const granted = validExtensions.includes(file.type);
-
-      if (!granted) {
-        showWarning(`${file.type} ${t('forms.category.upload.invalid')}`);
-      }
-
-      return granted;
-    },
-    onChange(info) {
-      if (info.file.status === 'done') {
-        showSuccess(t('forms.category.upload.success'));
-        setValue('photo', info.file.response.url);
-      }
-    },
-  };
 
   return (
     <>
@@ -84,17 +57,7 @@ export const Category: FC<CategoryProps> = (props: CategoryProps) => {
         <Controller
           name="photo"
           control={control}
-          render={({ field }) => (
-            <Form.Item label={t('forms.category.photo')}>
-              <Space.Compact className={cn(s.uploadContainer)}>
-                <Input {...field} />
-                <Upload {...uploadParams}>
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </Space.Compact>
-              {errors.photo && <Text type={'danger'}>{errors.photo.message}</Text>}
-            </Form.Item>
-          )}
+          render={({ field }) => <UploadPhotoInput field={field} error={errors.photo} urlSetter={setValue} />}
         />
         <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
           <Button type="primary" htmlType="submit">

@@ -60,11 +60,11 @@ export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProp
             <>
               <Space>
                 {props.product.oldPrice && (
-                  <Text delete={true} type={'secondary'}>
+                  <Text delete={true} type={'secondary'} className={cn(s.price)}>
                     ${props.product.oldPrice}
                   </Text>
                 )}
-                <Text>${props.product.price}</Text>
+                <Text className={cn(s.price)}>${props.product.price}</Text>
                 {props.product.oldPrice && (
                   <Text strong={true} type={'danger'}>
                     {t('forms.product.sale')}
