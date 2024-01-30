@@ -4,10 +4,9 @@ import { apiPath, apiUrl, getAuthHeader } from '@/utils/api';
 import { useTranslation } from 'react-i18next';
 import { useNotification } from '@/hooks/useNotification';
 import cn from 'clsx';
-import s from '@/components/Forms/Category/Category.sass';
+import s from './UploadPhotoInput.sass';
 import { UploadOutlined } from '@ant-design/icons';
-import { FieldError, FieldValues, SetFieldValue, UseControllerProps, UseFormSetValue } from 'react-hook-form';
-import { UploadPhotoInput as UploadPhotoInputType } from './types';
+import { FieldError, FieldValues, SetFieldValue, UseControllerProps } from 'react-hook-form';
 
 const { Text } = Typography;
 const validExtensions = ['image/png', 'image/jpeg', 'image'];

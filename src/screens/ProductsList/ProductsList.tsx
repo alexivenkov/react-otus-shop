@@ -11,6 +11,7 @@ import cn from 'clsx';
 import s from '@/screens/Auth/Auth.sass';
 import { ProductInputs } from '@/components/Forms/Product/types';
 import { categoriesSelectors } from '@/store/slices/categories';
+import { Category } from '@/models/category';
 
 export const ProductsList: FC = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,21 @@ export const ProductsList: FC = () => {
     setCurrentProduct(null);
   };
 
-  const onSave = (data: ProductInputs) => {};
+  const onEdit = (e: React.MouseEvent<HTMLElement>) => {
+    const productId = e.currentTarget.dataset['id'];
+    const product: Product = products.data
+      .filter((product) => {
+        return product.id == productId;
+      })
+      .shift();
+
+    setCurrentProduct(product);
+    setShowModal(true);
+  };
+
+  const onSave = (data: ProductInputs) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -49,12 +64,13 @@ export const ProductsList: FC = () => {
         {isAdmin && <Button onClick={() => setShowModal(true)}>{t('forms.product.create')}</Button>}
         <List
           onChangePage={onChangePage}
+          onEdit={onEdit}
           total={products.total}
           products={products.data}
           canEdit={isAdmin}
           canDelete={isAdmin}
         />
-        <Modal open={showModal} footer={false} onCancel={onCloseModal}>
+        <Modal width={'35%'} open={showModal} footer={false} onCancel={onCloseModal}>
           <h2 className={cn(s.authLabel)}>{t(`forms.product.${currentProduct ? 'update' : 'create'}`)}</h2>
           <ProductForm product={currentProduct} categories={categories} onSubmit={onSave} />
         </Modal>

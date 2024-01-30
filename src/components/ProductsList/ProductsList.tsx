@@ -2,11 +2,11 @@ import React, { FC, memo } from 'react';
 import { Product as ProductModel } from '@/models/product';
 import { Empty, List } from 'antd';
 import { ProductShort } from '@/components/ProductShort/ProductShort';
-import { Link } from 'react-router-dom';
 
 interface ProductListProps {
   products: ProductModel[];
   onChangePage: (page: number, pageSize: number) => void;
+  onEdit: (e: React.MouseEvent<HTMLElement>) => void;
   total: number;
   canEdit: boolean;
   canDelete: boolean;
@@ -33,9 +33,7 @@ export const ProductsList: FC<ProductListProps> = memo((props: ProductListProps)
           }
           renderItem={(item) => (
             <List.Item>
-              <Link to={`/products/${item.id}`}>
-                <ProductShort product={item} canEdit={props.canEdit} canDelete={props.canDelete} />
-              </Link>
+              <ProductShort product={item} canEdit={props.canEdit} canDelete={props.canDelete} onEdit={props.onEdit} />
             </List.Item>
           )}
         ></List>

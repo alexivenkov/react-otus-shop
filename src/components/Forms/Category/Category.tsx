@@ -4,8 +4,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import { CategoryInputs } from '@/components/Forms/Category/types';
-import cn from 'clsx';
-import s from './Category.sass';
 import { Button, Form, Input, Typography } from 'antd';
 import { Category as CategoryModel } from '@/models/category';
 import { UploadPhotoInput } from '@/components/Forms/Common/UploadPhotoInput/UploadPhotoInput';
@@ -22,8 +20,6 @@ const validationSchema = yup
     name: yup.string().required(),
   })
   .required();
-
-const validExtensions = ['image/png', 'image/jpeg', 'image'];
 
 export const Category: FC<CategoryProps> = (props: CategoryProps) => {
   const {

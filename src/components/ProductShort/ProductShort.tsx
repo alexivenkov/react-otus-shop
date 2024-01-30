@@ -8,6 +8,7 @@ import { CoverImage } from '@/components/CoverImage/CoverImage';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { authSelectors } from '@/store/slices/auth';
+import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -16,6 +17,7 @@ interface ProductShortProps {
   product: Product;
   canEdit: boolean;
   canDelete: boolean;
+  onEdit: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProps) => {
@@ -26,7 +28,7 @@ export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProp
 
   if (props.canEdit) {
     actions.push(
-      <Button key={`edit.${props.product.id}`}>
+      <Button key={`edit.${props.product.id}`} onClick={props.onEdit} data-id={props.product.id}>
         <EditOutlined />
       </Button>
     );
@@ -34,7 +36,7 @@ export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProp
 
   if (props.canDelete) {
     actions.push(
-      <Button key={`delete.${props.product.id}`}>
+      <Button key={`delete.${props.product.id}`} data-id={props.product.id}>
         <DeleteOutlined />
       </Button>
     );
@@ -47,7 +49,9 @@ export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProp
         cover={
           <>
             <Popover placement={'topLeft'} title={props.product.category?.name}>
-              <CoverImage src={props.product?.photo} />
+              <Link to={`/products/${props.product.id}`}>
+                <CoverImage src={props.product?.photo} />
+              </Link>
             </Popover>
           </>
         }

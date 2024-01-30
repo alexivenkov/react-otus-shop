@@ -1,10 +1,10 @@
 import { Category } from '@/models/category';
+import { UploadPhotoInput } from '@/components/Forms/Common/UploadPhotoInput/types';
 
-export interface ProductInputs {
+export interface ProductInputs extends UploadPhotoInput {
   name: string;
-  photo: string;
   desc: string;
   oldPrice?: number;
   price: number;
-  category: Category;
+  category: string;
 }

@@ -3,13 +3,11 @@ import { Product as ProductModel } from '@/models/product';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ProductInputs } from '@/components/Forms/Product/types';
-import { AutoComplete, Button, Form, Input, Select, Space, Typography, Upload, UploadProps } from 'antd';
+import { Button, Form, Input, Select, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Category } from '@/models/category';
-import cn from 'clsx';
-import s from '@/components/Forms/Category/Category.sass';
-import { UploadOutlined } from '@ant-design/icons';
-import { apiPath, apiUrl, getAuthHeader } from '@/utils/api';
+import { UploadPhotoInput } from '@/components/Forms/Common/UploadPhotoInput/UploadPhotoInput';
+import * as yup from 'yup';
 
 const { Text } = Typography;
 
@@ -20,48 +18,50 @@ interface ProductProps {
 }
 
 export const Product: FC<ProductProps> = (props: ProductProps) => {
+  const { t } = useTranslation();
+
+  const validationSchema = yup.object({
+    name: yup.string().required(),
+    desc: yup.string().optional(),
+    photo: yup.string().optional(),
+    oldPrice: yup
+      .number()
+      .transform((value) => (Number.isNaN(value) ? null : value))
+      .nullable()
+      .optional(),
+    price: yup
+      .number()
+      .required()
+      .when('oldPrice', (oldPrice, schema) => {
+        console.log(oldPrice, schema);
+        return oldPrice.pop() ? schema.lessThan(yup.ref('oldPrice'), t('forms.product.validation.price')) : schema;
+      }),
+    category: yup.string().required(),
+  });
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<ProductInputs>({
-    /*values: {
-      name: props.product?.name || null,
-    },*/
+    values: {
+      name: props.product?.name,
+      desc: props.product?.desc,
+      photo: props.product?.photo,
+      price: props.product?.price,
+      oldPrice: props.product?.oldPrice,
+      category: props.product?.category?.id,
+    },
+    resolver: yupResolver(validationSchema),
   });
 
-  const { t } = useTranslation();
   const categories = props.categories.map((category: Category) => {
     return {
       label: category.name,
       value: category.id,
     };
   });
-
-  /*const uploadParams: UploadProps = {
-    name: 'file',
-    action: `${apiUrl}${apiPath}/upload`,
-    headers: {
-      ...getAuthHeader(),
-    },
-    showUploadList: false,
-    beforeUpload: (file) => {
-      const granted = validExtensions.includes(file.type);
-
-      if (!granted) {
-        showWarning(`${file.type} ${t('forms.category.upload.invalid')}`);
-      }
-
-      return granted;
-    },
-    onChange(info) {
-      if (info.file.status === 'done') {
-        showSuccess(t('forms.category.upload.success'));
-        setValue('photo', info.file.response.url);
-      }
-    },
-  };*/
 
   return (
     <>
@@ -71,7 +71,7 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
           control={control}
           render={({ field }) => (
             <Form.Item label={t('forms.product.name')}>
-              <Input required {...field} />
+              <Input {...field} />
               {errors.name && <Text type={'danger'}>{errors.name.message}</Text>}
             </Form.Item>
           )}
@@ -81,7 +81,7 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
           control={control}
           render={({ field }) => (
             <Form.Item label={t('forms.product.desc')}>
-              <Input required {...field} />
+              <Input {...field} />
               {errors.desc && <Text type={'danger'}>{errors.desc.message}</Text>}
             </Form.Item>
           )}
@@ -92,7 +92,7 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
           render={({ field }) => (
             <Form.Item label={t('forms.product.category')}>
               <Select value={props.product?.category?.id} options={categories} {...field} />
-              {errors.desc && <Text type={'danger'}>{errors.desc.message}</Text>}
+              {errors.category && <Text type={'danger'}>{errors.category.message}</Text>}
             </Form.Item>
           )}
         ></Controller>
@@ -101,8 +101,8 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
           control={control}
           render={({ field }) => (
             <Form.Item label={t('forms.product.oldPrice')}>
-              <Input required {...field} />
-              {errors.desc && <Text type={'danger'}>{errors.desc.message}</Text>}
+              <Input {...field} />
+              {errors.oldPrice && <Text type={'danger'}>{errors.oldPrice.message}</Text>}
             </Form.Item>
           )}
         />
@@ -111,26 +111,21 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
           control={control}
           render={({ field }) => (
             <Form.Item label={t('forms.product.price')}>
-              <Input required {...field} />
-              {errors.desc && <Text type={'danger'}>{errors.desc.message}</Text>}
+              <Input {...field} />
+              {errors.price && <Text type={'danger'}>{errors.price.message}</Text>}
             </Form.Item>
           )}
         />
-        {/*<Controller
+        <Controller
           name="photo"
           control={control}
-          render={({ field }) => (
-            <Form.Item label={t('forms.category.photo')}>
-              <Space.Compact className={cn(s.uploadContainer)}>
-                <Input {...field} />
-                <Upload {...uploadParams}>
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </Space.Compact>
-              {errors.photo && <Text type={'danger'}>{errors.photo.message}</Text>}
-            </Form.Item>
-          )}
-        />*/}
+          render={({ field }) => <UploadPhotoInput field={field} error={errors.photo} urlSetter={setValue} />}
+        />
+        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            {t(`forms.product.save`)}
+          </Button>
+        </Form.Item>
       </Form>
     </>
   );

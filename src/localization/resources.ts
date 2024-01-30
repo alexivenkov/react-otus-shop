@@ -43,6 +43,9 @@ export const resources = {
           desc: 'Description',
           category: 'Category',
           oldPrice: 'Old Price',
+          validation: {
+            price: 'Sale price should be less than Old Price',
+          },
         },
         upload: {
           success: 'file uploaded successfully',
@@ -106,6 +109,9 @@ export const resources = {
           desc: 'Описание',
           category: 'Категория',
           oldPrice: 'Старая Цена',
+          validation: {
+            price: 'Цена по распродаже должна быть ниже чем старая цена',
+          },
         },
       },
       messages: {
