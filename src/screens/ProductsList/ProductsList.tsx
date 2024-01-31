@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsActions, productsSelectors } from '@/store/slices/products';
 import { ProductsList as List } from '@/components/ProductsList/ProductsList';
@@ -11,7 +11,8 @@ import cn from 'clsx';
 import s from '@/screens/Auth/Auth.sass';
 import { ProductInputs } from '@/components/Forms/Product/types';
 import { categoriesSelectors } from '@/store/slices/categories';
-import { Category } from '@/models/category';
+import { useNotification } from '@/hooks/useNotification';
+import { Status } from '@/store/states';
 
 export const ProductsList: FC = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export const ProductsList: FC = () => {
   const categories = useSelector(categoriesSelectors.categories);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentProduct, setCurrentProduct] = useState<Product>(null);
+  const { showSuccess, showError } = useNotification();
   const { t } = useTranslation();
 
   const onChangePage = (page: number, pageSize: number): void => {
@@ -37,7 +39,7 @@ export const ProductsList: FC = () => {
     );
   };
 
-  const onCloseModal = () => {
+  const closeModal = () => {
     setShowModal(false);
     setCurrentProduct(null);
   };
@@ -55,8 +57,45 @@ export const ProductsList: FC = () => {
   };
 
   const onSave = (data: ProductInputs) => {
-    console.log(data);
+    dispatch(
+      currentProduct
+        ? productsActions.edit({
+            id: currentProduct.id,
+            ...data,
+          })
+        : productsActions.create({
+            ...data,
+          })
+    );
+
+    closeModal();
   };
+
+  const onDelete = (e: React.MouseEvent<HTMLElement>) => {
+    const productId = e.currentTarget.dataset['id'];
+
+    dispatch(productsActions.delete({ id: productId }));
+  };
+
+  useEffect(() => {
+    if (products.status == Status.succeeded) {
+      showSuccess('success');
+      dispatch(
+        productsActions.setMeta({
+          status: Status.idle,
+        })
+      );
+    }
+
+    if (products.status == Status.failed) {
+      showError(products.error);
+      dispatch(
+        productsActions.setMeta({
+          status: Status.idle,
+        })
+      );
+    }
+  }, [products.status]);
 
   return (
     <>
@@ -65,12 +104,13 @@ export const ProductsList: FC = () => {
         <List
           onChangePage={onChangePage}
           onEdit={onEdit}
+          onDelete={onDelete}
           total={products.total}
           products={products.data}
           canEdit={isAdmin}
           canDelete={isAdmin}
         />
-        <Modal width={'35%'} open={showModal} footer={false} onCancel={onCloseModal}>
+        <Modal width={'35%'} open={showModal} footer={false} onCancel={closeModal}>
           <h2 className={cn(s.authLabel)}>{t(`forms.product.${currentProduct ? 'update' : 'create'}`)}</h2>
           <ProductForm product={currentProduct} categories={categories} onSubmit={onSave} />
         </Modal>

@@ -95,7 +95,7 @@ function* editCategorySaga(action: PayloadAction<CategoryPayload>): Generator {
         status: Status.succeeded,
         error: null,
         data: [...categories.slice(0, index), response, ...categories.slice(index + 1)],
-        total: categories.length,
+        total: categories.length + 1,
       })
     );
   } catch (e) {
@@ -118,7 +118,7 @@ function* deleteCategorySaga(action: PayloadAction<{ id: string }>): Generator {
         status: Status.succeeded,
         error: null,
         data: categories.filter((category: Category) => category.id != action.payload.id),
-        total: categories.length,
+        total: categories.length - 1,
       })
     );
     yield put(

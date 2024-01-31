@@ -1,6 +1,6 @@
 import React, { FC, memo } from 'react';
 import { Product } from '@/models/product';
-import { Button, Card, Popover, Space, Typography } from 'antd';
+import { Button, Card, Popover, Row, Space, Typography } from 'antd';
 import cn from 'clsx';
 import s from './ProductShort.sass';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ interface ProductShortProps {
   canEdit: boolean;
   canDelete: boolean;
   onEdit: (e: React.MouseEvent<HTMLElement>) => void;
+  onDelete: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProps) => {
@@ -36,7 +37,7 @@ export const ProductShort: FC<ProductShortProps> = memo((props: ProductShortProp
 
   if (props.canDelete) {
     actions.push(
-      <Button key={`delete.${props.product.id}`} data-id={props.product.id}>
+      <Button key={`delete.${props.product.id}`} onClick={props.onDelete} data-id={props.product.id}>
         <DeleteOutlined />
       </Button>
     );

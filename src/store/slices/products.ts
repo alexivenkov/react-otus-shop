@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Meta, ProductsState, Status } from '@/store/states';
-import { PaginationRequest } from '@/store/payloads';
+import { PaginationRequest, ProductPayload } from '@/store/payloads';
 import { State } from '@/store';
+import { Product } from '@/models/product';
 
 export const PRODUCTS_SLICE = 'products';
 
@@ -17,7 +18,7 @@ export const productsSlice = createSlice({
   initialState: initialState,
   reducers: {
     set: (state: ProductsState, action: PayloadAction<ProductsState>) => action.payload,
-    setMeta: (state: ProductsState, action: PayloadAction<Meta>) => {
+    setMeta: (state: ProductsState, action: PayloadAction<Partial<Meta>>) => {
       if (action.payload.status) {
         state.status = action.payload.status;
       }
@@ -26,16 +27,28 @@ export const productsSlice = createSlice({
         state.error = action.payload.error;
       }
     },
-    load: (state: ProductsState, action: PayloadAction<PaginationRequest>) => {},
+    load: (state: ProductsState, action: PayloadAction<PaginationRequest>) => {
+      state.status = Status.loading;
+    },
+    create: (state: ProductsState, action: PayloadAction<ProductPayload>) => {
+      state.status = Status.loading;
+    },
+    edit: (state: ProductsState, action: PayloadAction<ProductPayload>) => {
+      state.status = Status.loading;
+    },
+    delete: (state: ProductsState, action: PayloadAction<{ id: string }>) => {
+      state.status = Status.loading;
+    },
   },
 });
 
 export const productsActions = productsSlice.actions;
 
 export const productsSelectors = {
-  get: (state: State): State['products'] => {
-    return state.products;
-  },
+  get: (state: State): State['products'] => state.products,
+  products: (state: State): Product[] => state.products.data,
+  status: (state: State): Status => state.products.status,
+  total: (state: State): number => state.products.total,
 };
 
 export const products = productsSlice.reducer;

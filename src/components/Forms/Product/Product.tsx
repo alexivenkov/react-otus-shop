@@ -20,6 +20,13 @@ interface ProductProps {
 export const Product: FC<ProductProps> = (props: ProductProps) => {
   const { t } = useTranslation();
 
+  const categories = props.categories.map((category: Category) => {
+    return {
+      label: category.name,
+      value: category.id,
+    };
+  });
+
   const validationSchema = yup.object({
     name: yup.string().required(),
     desc: yup.string().optional(),
@@ -33,10 +40,12 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
       .number()
       .required()
       .when('oldPrice', (oldPrice, schema) => {
-        console.log(oldPrice, schema);
         return oldPrice.pop() ? schema.lessThan(yup.ref('oldPrice'), t('forms.product.validation.price')) : schema;
       }),
-    category: yup.string().required(),
+    category: yup
+      .string()
+      .oneOf(categories.map((category) => category.value))
+      .required(),
   });
 
   const {
@@ -54,13 +63,6 @@ export const Product: FC<ProductProps> = (props: ProductProps) => {
       category: props.product?.category?.id,
     },
     resolver: yupResolver(validationSchema),
-  });
-
-  const categories = props.categories.map((category: Category) => {
-    return {
-      label: category.name,
-      value: category.id,
-    };
   });
 
   return (

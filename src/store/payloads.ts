@@ -17,3 +17,13 @@ export interface CategoryPayload {
   name: string;
   photo?: string;
 }
+
+export interface ProductPayload {
+  id?: string;
+  name: string;
+  desc?: string;
+  photo?: string;
+  oldPrice?: number;
+  price: number;
+  category: string;
+}

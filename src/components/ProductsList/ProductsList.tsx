@@ -7,6 +7,7 @@ interface ProductListProps {
   products: ProductModel[];
   onChangePage: (page: number, pageSize: number) => void;
   onEdit: (e: React.MouseEvent<HTMLElement>) => void;
+  onDelete: (e: React.MouseEvent<HTMLElement>) => void;
   total: number;
   canEdit: boolean;
   canDelete: boolean;
@@ -33,7 +34,13 @@ export const ProductsList: FC<ProductListProps> = memo((props: ProductListProps)
           }
           renderItem={(item) => (
             <List.Item>
-              <ProductShort product={item} canEdit={props.canEdit} canDelete={props.canDelete} onEdit={props.onEdit} />
+              <ProductShort
+                product={item}
+                canEdit={props.canEdit}
+                canDelete={props.canDelete}
+                onEdit={props.onEdit}
+                onDelete={props.onDelete}
+              />
             </List.Item>
           )}
         ></List>
