@@ -24,10 +24,6 @@ export const Menu: FC = memo(() => {
     },
     {
       key: 3,
-      label: <Link to={'/products'}>{t('menu.products')}</Link>,
-    },
-    {
-      key: 4,
       label: <Link to={'/profile'}>{t('menu.profile')}</Link>,
     },
   ];

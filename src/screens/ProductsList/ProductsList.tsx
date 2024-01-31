@@ -13,8 +13,10 @@ import { ProductInputs } from '@/components/Forms/Product/types';
 import { categoriesSelectors } from '@/store/slices/categories';
 import { useNotification } from '@/hooks/useNotification';
 import { Status } from '@/store/states';
+import { useParams } from 'react-router-dom';
 
 export const ProductsList: FC = () => {
+  const { categoryId } = useParams();
   const dispatch = useDispatch();
   const products = useSelector(productsSelectors.get);
   const isAdmin: boolean = useSelector(profileSelectors.isAdmin);
@@ -35,6 +37,7 @@ export const ProductsList: FC = () => {
           type: 'ASC',
           field: 'name',
         },
+        categories: [categoryId],
       })
     );
   };
@@ -96,6 +99,16 @@ export const ProductsList: FC = () => {
       );
     }
   }, [products.status]);
+
+  useEffect(() => {
+    dispatch(
+      productsActions.load({
+        pagination: { pageNumber: 1, pageSize: 8 },
+        sorting: { type: 'ASC', field: 'name' },
+        categories: [categoryId],
+      })
+    );
+  }, []);
 
   return (
     <>

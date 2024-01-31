@@ -7,14 +7,16 @@ import { ProductsResponse } from '@/utils/api/responses';
 import { Status } from '@/store/states';
 import { Product } from '@/models/product';
 
-function* loadProducts(action: PayloadAction<PaginationRequest>): Generator {
+function* loadProducts(action: PayloadAction<PaginationRequest & { categories: string[] }>): Generator {
   try {
+    console.log(action.payload);
     const response = (yield call(
       [api, api.get],
       'products',
       {
         pagination: JSON.stringify(action.payload.pagination),
         sorting: JSON.stringify(action.payload.sorting),
+        categoryIds: JSON.stringify(action.payload.categories),
       },
       {
         ...getAuthHeader(),

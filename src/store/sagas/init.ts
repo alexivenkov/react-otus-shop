@@ -27,12 +27,6 @@ export function* initializeSaga(): Generator {
         sorting: { type: 'ASC', field: 'name' },
       })
     );
-    yield put(
-      productsActions.load({
-        pagination: { pageNumber: 1, pageSize: 8 },
-        sorting: { type: 'ASC', field: 'name' },
-      })
-    );
   }
 
   yield put(

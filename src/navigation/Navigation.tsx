@@ -39,7 +39,7 @@ export const Navigation: FC = () => {
                 }
               />
               <Route
-                path={'/products'}
+                path={'/categories/:categoryId/products'}
                 element={
                   <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
                     <ProductsList />

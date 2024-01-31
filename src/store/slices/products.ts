@@ -27,7 +27,7 @@ export const productsSlice = createSlice({
         state.error = action.payload.error;
       }
     },
-    load: (state: ProductsState, action: PayloadAction<PaginationRequest>) => {
+    load: (state: ProductsState, action: PayloadAction<PaginationRequest & { categories: string[] }>) => {
       state.status = Status.loading;
     },
     create: (state: ProductsState, action: PayloadAction<ProductPayload>) => {
