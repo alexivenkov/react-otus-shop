@@ -1,5 +1,6 @@
 import { AuthType } from '@/components/Forms/Auth/types';
 import { Pagination, Sorting } from '@/utils/api/responses';
+import { OrderProduct, OrderStatus } from '@/models/order';
 
 export interface AuthPayload {
   type: AuthType;
@@ -26,4 +27,12 @@ export interface ProductPayload {
   oldPrice?: number;
   price: number;
   category: string;
+}
+
+export interface CheckoutPayload {
+  products: {
+    id: string;
+    quantity: number;
+  }[];
+  status: OrderStatus;
 }

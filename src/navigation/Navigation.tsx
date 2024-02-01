@@ -11,12 +11,10 @@ import { Status } from '@/store/states';
 import { authSelectors } from '@/store/slices/auth';
 import { ProtectedRoute } from '@/navigation/ProtectedRoute';
 import { Profile } from '@/screens/Profile/Profile';
-import { Category } from '@/components/Category/Category';
-import { CategoryList } from '@/components/CategoryList/CategoryList';
 import { Categories } from '@/screens/Categories/Categories';
 import { ProductsList } from '@/screens/ProductsList/ProductsList';
-import { ProductFull } from '@/components/ProductFull/ProductFull';
 import { Product } from '@/screens/Product/Product';
+import { Cart } from '@/screens/Cart/Cart';
 
 export const Navigation: FC = () => {
   const init = useSelector(initSelectors.get);
@@ -51,6 +49,14 @@ export const Navigation: FC = () => {
                 element={
                   <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
                     <Product />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={'/cart'}
+                element={
+                  <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
+                    <Cart />
                   </ProtectedRoute>
                 }
               />

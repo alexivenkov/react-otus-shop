@@ -7,9 +7,8 @@ import { ProductsResponse } from '@/utils/api/responses';
 import { Status } from '@/store/states';
 import { Product } from '@/models/product';
 
-function* loadProducts(action: PayloadAction<PaginationRequest & { categories: string[] }>): Generator {
+function* loadProductsSaga(action: PayloadAction<PaginationRequest & { categories: string[] }>): Generator {
   try {
-    console.log(action.payload);
     const response = (yield call(
       [api, api.get],
       'products',
@@ -150,7 +149,7 @@ function* deleteProductSaga(action: PayloadAction<{ id: string }>): Generator {
 }
 
 export function* productsWatcher(): Generator {
-  yield takeLatest(productsActions.load.type, loadProducts);
+  yield takeLatest(productsActions.load.type, loadProductsSaga);
   yield takeLatest(productsActions.create.type, createProductSaga);
   yield takeLatest(productsActions.edit.type, editProductSaga);
   yield takeLatest(productsActions.delete.type, deleteProductSaga);

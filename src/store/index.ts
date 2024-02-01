@@ -6,6 +6,8 @@ import { profile } from '@/store/slices/profile';
 import { categories } from '@/store/slices/categories';
 import { products } from '@/store/slices/products';
 import { sagas } from '@/store/sagas';
+import { cart } from '@/store/slices/cart';
+import { orders } from '@/store/slices/orders';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +18,8 @@ export const store = configureStore({
     profile,
     categories,
     products,
+    cart,
+    orders,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
 });

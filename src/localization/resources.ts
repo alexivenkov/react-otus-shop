@@ -52,8 +52,13 @@ export const resources = {
           invalid: 'filetype is not valid',
         },
       },
+      cart: {
+        total: 'Total',
+        checkOut: 'Check Out',
+      },
       messages: {
         passwordUpdated: 'Password Updated Successfully',
+        orderCreated: 'Order Created Successfully',
         errors: {
           ERR_INCORRECT_PASSWORD: 'Incorrect password',
           ERR_INCORRECT_EMAIL_OR_PASSWORD: 'Incorrect email or password',
@@ -114,8 +119,13 @@ export const resources = {
           },
         },
       },
+      cart: {
+        total: 'Сумма заказа',
+        checkOut: 'Оплатить',
+      },
       messages: {
         passwordUpdated: 'Пароль успешно обновлён',
+        orderCreated: 'Заказ успешно создан',
         errors: {
           ERR_INCORRECT_PASSWORD: 'Не верный пароль',
           ERR_INCORRECT_EMAIL_OR_PASSWORD: 'Введены не верный логин и/или пароль',

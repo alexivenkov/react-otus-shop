@@ -25,7 +25,7 @@ class API {
   private async performRequest<T>(
     method: string,
     endpoint: string,
-    data?: Record<string, string | number>,
+    data?: Record<string, any>,
     customHeaders?: Record<string, string>,
     url?: URL
   ): Promise<T> {
@@ -73,27 +73,15 @@ class API {
     return this.performRequest('GET', endpoint, undefined, headers, url);
   }
 
-  public post<T>(
-    endpoint: string,
-    data?: Record<string, string | number>,
-    headers?: Record<string, string>
-  ): Promise<T> {
+  public post<T>(endpoint: string, data?: Record<string, any>, headers?: Record<string, string>): Promise<T> {
     return this.performRequest('POST', endpoint, data, headers);
   }
 
-  public put<T>(
-    endpoint: string,
-    data?: Record<string, string | number>,
-    headers?: Record<string, string>
-  ): Promise<T> {
+  public put<T>(endpoint: string, data?: Record<string, any>, headers?: Record<string, string>): Promise<T> {
     return this.performRequest('PUT', endpoint, data, headers);
   }
 
-  public delete<T>(
-    endpoint: string,
-    data?: Record<string, string | number>,
-    headers?: Record<string, string>
-  ): Promise<T> {
+  public delete<T>(endpoint: string, data?: Record<string, any>, headers?: Record<string, string>): Promise<T> {
     return this.performRequest('DELETE', endpoint, data, headers);
   }
 }

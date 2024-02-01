@@ -5,19 +5,33 @@ import { Product as ProductModel } from '@/models/product';
 import { ProductFull } from '@/components/ProductFull/ProductFull';
 import { NotFoundError, ServerError } from '@/utils/api/errors';
 import { useNotification } from '@/hooks/useNotification';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions, cartSelectors } from '@/store/slices/cart';
+import { OrderProduct } from '@/models/order';
 
 export const Product: FC = () => {
   const [product, setProduct] = useState<ProductModel>(null);
+  const [cartCount, setCartCount] = useState<number>(0);
   const { productId } = useParams<string>();
   const { showError } = useNotification();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartProducts = useSelector(cartSelectors.products);
+
+  const addToCart = (product: ProductModel) => dispatch(cartActions.add(product));
+  const removeFromCart = (product: ProductModel) => dispatch(cartActions.remove(product));
 
   useEffect(() => {
     (async () => {
       try {
-        const response: ProductModel = await api.get<ProductModel>(`products/${productId}`, {}, {});
-
+        const response: ProductModel = await api.get<ProductModel>(`products/${productId}`, {}, { ...getAuthHeader() });
         setProduct(response);
+
+        if (cartProducts) {
+          setCartCount(
+            cartProducts.filter((item: OrderProduct) => item.product.id == productId).shift()?.quantity ?? 0
+          );
+        }
       } catch (e) {
         console.error(e);
 
@@ -39,7 +53,7 @@ export const Product: FC = () => {
 
   return (
     <>
-      <ProductFull product={product} />
+      <ProductFull product={product} add={addToCart} remove={removeFromCart} count={cartCount} />
     </>
   );
 };

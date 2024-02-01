@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { State } from '@/store';
-import { AuthState, Status } from '@/store/states';
+import { AuthState, Meta, Status } from '@/store/states';
 import { AuthPayload } from '@/store/payloads';
 
 export const AUTH_SLICE = 'auth';
@@ -18,6 +18,15 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     set: (state: AuthState, action: PayloadAction<AuthState>) => action.payload,
+    setMeta: (state: AuthState, action: PayloadAction<Partial<Meta>>) => {
+      if (action.payload.status) {
+        state.status = action.payload.status;
+      }
+
+      if (action.payload.error) {
+        state.error = action.payload.error;
+      }
+    },
     auth: (state: AuthState, action: PayloadAction<AuthPayload>) => {
       state.status = Status.loading;
     },
@@ -30,18 +39,10 @@ const authSlice = createSlice({
 export const authActions = authSlice.actions;
 
 export const authSelectors = {
-  get: (state: State): State['auth'] => {
-    return state.auth;
-  },
-  token: (state: State): string | null => {
-    return state.auth.data.token;
-  },
-  status: (state: State): Status => {
-    return state.auth.status;
-  },
-  error: (state: State): Error => {
-    return state.auth.error;
-  },
+  get: (state: State): State['auth'] => state.auth,
+  token: (state: State): string | null => state.auth.data.token,
+  status: (state: State): Status => state.auth.status,
+  error: (state: State): Error => state.auth.error,
 };
 
 export const auth = authSlice.reducer;

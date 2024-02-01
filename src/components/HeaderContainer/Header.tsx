@@ -1,10 +1,12 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import { Image, Layout, Space } from 'antd';
 import { Menu } from '@/components/HeaderContainer/Menu/Menu';
 import cn from 'clsx';
 import s from './Header.sass';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher/LocaleSwitcher';
 import { Auth } from '@/components/HeaderContainer/Auth/Auth';
+import { Link } from 'react-router-dom';
+import { CartIcon } from '@/components/CartIcon/CartIcon';
 
 const { Header } = Layout;
 
@@ -21,7 +23,10 @@ export const HeaderContainer: FC = () => {
           />
         </div>
         <Menu />
-        <Space>
+        <Space size={'large'}>
+          <Link to={'/cart'}>
+            <CartIcon />
+          </Link>
           <Auth />
           <LocaleSwitcher />
         </Space>

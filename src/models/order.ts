@@ -12,7 +12,7 @@ export enum OrderStatus {
 }
 
 export interface OrderProduct {
-  _id: string;
+  _id?: string;
   product: Product;
   quantity: number;
 }

@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions, authSelectors } from '@/store/slices/auth';
 import { Status } from '@/store/states';
-import { Modal } from 'antd';
 import { useNotification } from '@/hooks/useNotification';
 
 interface AuthProps {
@@ -16,8 +15,8 @@ interface AuthProps {
 
 export const Auth: FC<AuthProps> = (props: AuthProps) => {
   const dispatch = useDispatch();
-  const loading = useSelector(authSelectors.status);
   const error = useSelector(authSelectors.error);
+  const status = useSelector(authSelectors.status);
   const { showError } = useNotification();
   const { t } = useTranslation();
 
@@ -32,15 +31,21 @@ export const Auth: FC<AuthProps> = (props: AuthProps) => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (status == Status.failed) {
       showError(error);
+
+      dispatch(
+        authActions.setMeta({
+          status: Status.idle,
+        })
+      );
     }
-  }, [error]);
+  }, [status]);
 
   return (
     <>
       <h2 className={cn(s.authLabel)}>{t(`forms.auth.${props.type}`)}</h2>
-      <AuthForm type={props.type} onSubmit={onSubmit} loading={loading == Status.loading} />
+      <AuthForm type={props.type} onSubmit={onSubmit} loading={status == Status.loading} />
     </>
   );
 };

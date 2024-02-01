@@ -5,11 +5,15 @@ import cn from 'clsx';
 import s from './ProductFull.sass';
 import { useTranslation } from 'react-i18next';
 import { CoverImage } from '@/components/CoverImage/CoverImage';
+import { CounterCart } from '@/components/CounterCart/CounterCart';
 
 const { Title, Text } = Typography;
 
 interface ProductFullProps {
   product: Product;
+  count: number;
+  add: (product: Product) => void;
+  remove: (product: Product) => void;
 }
 
 export const ProductFull: FC<ProductFullProps> = (props: ProductFullProps) => {
@@ -47,7 +51,7 @@ export const ProductFull: FC<ProductFullProps> = (props: ProductFullProps) => {
             <Row>
               <Col span={24}>
                 <Divider />
-                <Button type={'primary'}>Add To Cart</Button>
+                <CounterCart product={props.product} count={props.count} add={props.add} remove={props.remove} />
               </Col>
             </Row>
           </Col>
