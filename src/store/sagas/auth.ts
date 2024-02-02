@@ -5,9 +5,11 @@ import { Status } from '@/store/states';
 import { AuthType } from '@/components/Forms/Auth/types';
 import { api } from '@/utils/api';
 import { AuthPayload } from '@/store/payloads';
-import { storage, TOKEN_KEY } from '@/utils/storage';
+import { CART_KEY, storage, TOKEN_KEY } from '@/utils/storage';
 import { AuthResponse } from '@/utils/api/responses';
 import { profileActions } from '@/store/slices/profile';
+import { categoriesActions } from '@/store/slices/categories';
+import { ordersActions } from '@/store/slices/orders';
 
 function* authSaga(action: PayloadAction<AuthPayload>): Generator {
   try {
@@ -25,6 +27,20 @@ function* authSaga(action: PayloadAction<AuthPayload>): Generator {
     storage.set(TOKEN_KEY, response.token);
 
     yield put(profileActions.load());
+
+    yield put(
+      categoriesActions.load({
+        pagination: { pageNumber: 1, pageSize: 8 },
+        sorting: { type: 'ASC', field: 'name' },
+      })
+    );
+
+    yield put(
+      ordersActions.load({
+        pagination: { pageNumber: 1, pageSize: 8 },
+        sorting: { type: 'ASC', field: 'name' },
+      })
+    );
   } catch (e) {
     yield put(
       authActions.set({
@@ -48,6 +64,7 @@ function* signOutSaga(): Generator {
   );
 
   storage.remove(TOKEN_KEY);
+  storage.remove(CART_KEY);
 }
 
 export function* authWatcher(): Generator {
