@@ -6,11 +6,11 @@ import { ordersActions } from '@/store/slices/orders';
 import { OrderProduct, OrderStatus } from '@/models/order';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '@/hooks/useNotification';
-import { OrdersState, Status } from '@/store/states';
+import { CartState, OrdersState, Status } from '@/store/states';
 import { useTranslation } from 'react-i18next';
 
 export const Cart: FC = () => {
-  const cart: OrdersState = useSelector(cartSelectors.get);
+  const cart: CartState = useSelector(cartSelectors.get);
   const sum = useSelector(cartSelectors.sum);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export const Cart: FC = () => {
       })
     );
 
-    navigate('/products');
+    navigate('/orders');
   };
 
   useEffect(() => {

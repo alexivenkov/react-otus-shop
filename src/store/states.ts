@@ -1,6 +1,6 @@
 import { Category } from '@/models/category';
 import { Product } from '@/models/product';
-import { OrderProduct } from '@/models/order';
+import { Order, OrderProduct } from '@/models/order';
 
 export enum Status {
   idle = 'idle',
@@ -41,4 +41,4 @@ export type ProfileState = State<Profile>;
 export type CategoriesState = State<Category[]> & Countable;
 export type ProductsState = State<Product[]> & Countable;
 export type CartState = State<OrderProduct[]> & Countable & { sum: number };
-export type OrdersState = State<OrderProduct[]> & Countable;
+export type OrdersState = State<Order[]> & Countable;

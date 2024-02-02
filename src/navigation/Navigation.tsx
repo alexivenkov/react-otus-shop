@@ -15,6 +15,7 @@ import { Categories } from '@/screens/Categories/Categories';
 import { ProductsList } from '@/screens/ProductsList/ProductsList';
 import { Product } from '@/screens/Product/Product';
 import { Cart } from '@/screens/Cart/Cart';
+import { Orders } from '@/screens/Orders/Orders';
 
 export const Navigation: FC = () => {
   const init = useSelector(initSelectors.get);
@@ -57,6 +58,14 @@ export const Navigation: FC = () => {
                 element={
                   <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
                     <Cart />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={'/orders'}
+                element={
+                  <ProtectedRoute condition={!!token} redirectPath={'/sign-in'}>
+                    <Orders />
                   </ProtectedRoute>
                 }
               />

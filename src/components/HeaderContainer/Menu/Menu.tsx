@@ -26,6 +26,10 @@ export const Menu: FC = memo(() => {
       key: 3,
       label: <Link to={'/profile'}>{t('menu.profile')}</Link>,
     },
+    {
+      key: 4,
+      label: <Link to={'/orders'}>{t('menu.orders')}</Link>,
+    },
   ];
 
   if (context.token) {

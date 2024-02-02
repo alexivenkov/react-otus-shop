@@ -1,17 +1,52 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { ordersActions, ordersSelectors } from '@/store/slices/orders';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { CheckoutPayload } from '@/store/payloads';
+import { CheckoutPayload, PaginationRequest } from '@/store/payloads';
 import { api, getAuthHeader } from '@/utils/api';
 import { Status } from '@/store/states';
-import { OrderProduct } from '@/models/order';
+import { Order, OrderProduct } from '@/models/order';
 import { CART_KEY, storage } from '@/utils/storage';
 import { cartActions } from '@/store/slices/cart';
+import { OrdersResponse } from '@/utils/api/responses';
+
+function* loadOrdersSaga(action: PayloadAction<PaginationRequest>): Generator {
+  try {
+    const response = (yield call(
+      [api, api.get],
+      'orders',
+      {
+        pagination: JSON.stringify(action.payload.pagination),
+        sorting: JSON.stringify(action.payload.sorting),
+      },
+      {
+        ...getAuthHeader(),
+      }
+    )) as OrdersResponse;
+
+    yield put(
+      ordersActions.set({
+        status: Status.succeeded,
+        error: null,
+        data: response.data,
+        total: response.pagination.total,
+      })
+    );
+  } catch (e) {
+    console.error(e);
+
+    yield put(
+      ordersActions.setMeta({
+        status: Status.failed,
+        error: e,
+      })
+    );
+  }
+}
 
 function* checkOutSaga(action: PayloadAction<CheckoutPayload>): Generator {
   try {
-    const response = (yield call([api, api.post], 'orders', action.payload, { ...getAuthHeader() })) as OrderProduct;
-    const orders: OrderProduct[] = [response, ...((yield select(ordersSelectors.orders)) as OrderProduct[])];
+    const response = (yield call([api, api.post], 'orders', action.payload, { ...getAuthHeader() })) as Order;
+    const orders: Order[] = [response, ...((yield select(ordersSelectors.orders)) as Order[])];
 
     yield put(
       ordersActions.set({
@@ -43,5 +78,6 @@ function* checkOutSaga(action: PayloadAction<CheckoutPayload>): Generator {
 }
 
 export function* ordersWatcher(): Generator {
+  yield takeLatest(ordersActions.load.type, loadOrdersSaga);
   yield takeLatest(ordersActions.checkOut, checkOutSaga);
 }

@@ -6,6 +6,7 @@ export const resources = {
         profile: 'Profile',
         categories: 'Categories',
         products: 'Products',
+        orders: 'Orders',
       },
       forms: {
         profile: {
@@ -73,6 +74,7 @@ export const resources = {
         profile: 'Профиль',
         categories: 'Категории',
         products: 'Товары',
+        orders: 'Заказы',
       },
       forms: {
         profile: {

@@ -1,5 +1,6 @@
 import { Category } from '@/models/category';
 import { Product } from '@/models/product';
+import { Order, OrderProduct } from '@/models/order';
 
 export interface Pagination {
   pageNumber: number;
@@ -31,6 +32,12 @@ export interface CategoriesResponse {
 
 export interface ProductsResponse {
   data: Product[];
+  pagination: Pagination;
+  sorting: Sorting;
+}
+
+export interface OrdersResponse {
+  data: Order[];
   pagination: Pagination;
   sorting: Sorting;
 }

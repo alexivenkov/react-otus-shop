@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Meta, OrdersState, Status } from '@/store/states';
-import { CheckoutPayload } from '@/store/payloads';
+import { Meta, OrdersState, ProductsState, Status } from '@/store/states';
+import { CheckoutPayload, PaginationRequest } from '@/store/payloads';
 import { State } from '@/store';
-import { OrderProduct } from '@/models/order';
+import { Order, OrderProduct } from '@/models/order';
 
 export const ORDERS_SLICE = 'orders';
 
@@ -27,6 +27,9 @@ const ordersSlice = createSlice({
         state.error = action.payload.error;
       }
     },
+    load: (state: OrdersState, action: PayloadAction<PaginationRequest>) => {
+      state.status = Status.loading;
+    },
     checkOut: (state: OrdersState, action: PayloadAction<CheckoutPayload>) => {
       state.status = Status.loading;
     },
@@ -37,7 +40,7 @@ export const ordersActions = ordersSlice.actions;
 
 export const ordersSelectors = {
   get: (state: State): State['orders'] => state.orders,
-  orders: (state: State): OrderProduct[] => state.orders.data,
+  orders: (state: State): Order[] => state.orders.data,
   meta: (state: State): Meta => {
     return {
       status: state.orders.status,
