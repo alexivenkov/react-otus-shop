@@ -6,6 +6,7 @@ export interface AuthPayload {
   type: AuthType;
   email: string;
   password: string;
+  commandId?: string;
 }
 
 export interface PaginationRequest {

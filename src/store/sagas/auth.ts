@@ -11,10 +11,17 @@ import { profileActions } from '@/store/slices/profile';
 import { categoriesActions } from '@/store/slices/categories';
 import { ordersActions } from '@/store/slices/orders';
 
+('alex.ivenkov');
+
+const COMMAND_ID = 'alex.ivenkov';
+
 function* authSaga(action: PayloadAction<AuthPayload>): Generator {
   try {
     const authPath = action.payload.type == AuthType.signIn ? 'signin' : 'signup';
-    const response = (yield call([api, api.post], authPath, { ...action.payload })) as AuthResponse;
+    const payload =
+      action.payload.type == AuthType.signUp ? { ...action.payload, commandId: COMMAND_ID } : action.payload;
+
+    const response = (yield call([api, api.post], authPath, payload)) as AuthResponse;
 
     yield put(
       authActions.set({

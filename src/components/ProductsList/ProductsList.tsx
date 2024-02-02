@@ -19,7 +19,7 @@ export const ProductsList: FC<ProductListProps> = memo((props: ProductListProps)
       {!props.total && <Empty description={''} />}
       {props.products.length > 0 && (
         <List
-          grid={{ gutter: 16, column: props.total < 5 ? props.total : 4 }}
+          grid={{ gutter: 16, column: props.products.length < 5 ? props.products.length : 4 }}
           dataSource={props.products}
           pagination={
             props.total < 8
