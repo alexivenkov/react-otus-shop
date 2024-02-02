@@ -3,7 +3,7 @@ import { Product as ProductModel } from '@/models/product';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ProductInputs } from '@/components/Forms/Product/types';
-import { Button, Form, Input, Select, Space, Typography } from 'antd';
+import { Button, Form, Input, Select, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Category } from '@/models/category';
 import { UploadPhotoInput } from '@/components/Forms/Common/UploadPhotoInput/UploadPhotoInput';

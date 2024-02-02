@@ -13,7 +13,7 @@ interface OrdersListProps {
 const getOrderContent = (order: Order) => {
   return order.products.map((item: OrderProduct) => {
     return (
-      <div key={item.product.id} className={s.productRow}>
+      <div key={item.product.id} className={cn(s.productRow)}>
         <Space>
           <Avatar src={item.product.photo} />
           {item.product.name}

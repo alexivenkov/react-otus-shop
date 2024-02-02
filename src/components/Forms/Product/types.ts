@@ -1,4 +1,3 @@
-import { Category } from '@/models/category';
 import { UploadPhotoInput } from '@/components/Forms/Common/UploadPhotoInput/types';
 
 export interface ProductInputs extends UploadPhotoInput {

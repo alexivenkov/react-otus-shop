@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
 import { Home } from '@/screens/Home/Home';
 import { Auth } from '@/screens/Auth/Auth';

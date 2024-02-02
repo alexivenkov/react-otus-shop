@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Card, Col, Row, Typography, Space, Divider, Button } from 'antd';
+import { Card, Col, Row, Typography, Space, Divider } from 'antd';
 import { Product } from '@/models/product';
 import cn from 'clsx';
 import s from './ProductFull.sass';

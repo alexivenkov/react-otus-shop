@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import cn from 'clsx';
 import s from './Auth.sass';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { AuthInputs, AuthType } from '@/components/Forms/Auth/types';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

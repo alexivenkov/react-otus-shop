@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+// eslint-disable-next-line import/named
 import { Button, Form, Input, Space, Typography, Upload, UploadProps } from 'antd';
 import { apiPath, apiUrl, getAuthHeader } from '@/utils/api';
 import { useTranslation } from 'react-i18next';

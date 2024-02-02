@@ -4,7 +4,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { CheckoutPayload, PaginationRequest } from '@/store/payloads';
 import { api, getAuthHeader } from '@/utils/api';
 import { Status } from '@/store/states';
-import { Order, OrderProduct } from '@/models/order';
+import { Order } from '@/models/order';
 import { CART_KEY, storage } from '@/utils/storage';
 import { cartActions } from '@/store/slices/cart';
 import { OrdersResponse } from '@/utils/api/responses';

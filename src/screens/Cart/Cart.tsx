@@ -6,7 +6,7 @@ import { ordersActions } from '@/store/slices/orders';
 import { OrderProduct, OrderStatus } from '@/models/order';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '@/hooks/useNotification';
-import { CartState, OrdersState, Status } from '@/store/states';
+import { CartState, Status } from '@/store/states';
 import { useTranslation } from 'react-i18next';
 
 export const Cart: FC = () => {

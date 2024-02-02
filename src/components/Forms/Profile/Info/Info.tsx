@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Button, Form, Input, Typography } from 'antd';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';

@@ -1,6 +1,6 @@
 import React, { FC, memo } from 'react';
 import { Product } from '@/models/product';
-import { Button, Card, Popover, Row, Space, Typography } from 'antd';
+import { Button, Card, Popover, Space, Typography } from 'antd';
 import cn from 'clsx';
 import s from './ProductShort.sass';
 import { useTranslation } from 'react-i18next';

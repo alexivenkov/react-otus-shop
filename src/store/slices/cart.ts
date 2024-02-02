@@ -3,7 +3,6 @@ import { CartState, Meta, Status } from '@/store/states';
 import { OrderProduct } from '@/models/order';
 import { Product } from '@/models/product';
 import { State } from '@/store';
-import { CheckoutPayload } from '@/store/payloads';
 
 export const CART_SLICE = 'cart';
 

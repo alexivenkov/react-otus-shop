@@ -3,9 +3,6 @@ import { OrderProduct } from '@/models/order';
 import { Avatar, Button, Card, Col, List, Row, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-const { Meta } = Card;
-const { Text } = Typography;
-
 interface ShoppingCartProps {
   onCheckOut: () => void;
   cart: OrderProduct[];

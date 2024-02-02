@@ -1,6 +1,6 @@
 import { Category } from '@/models/category';
 import { Product } from '@/models/product';
-import { Order, OrderProduct } from '@/models/order';
+import { Order } from '@/models/order';
 
 export interface Pagination {
   pageNumber: number;

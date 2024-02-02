@@ -1,6 +1,6 @@
 import { AuthType } from '@/components/Forms/Auth/types';
 import { Pagination, Sorting } from '@/utils/api/responses';
-import { OrderProduct, OrderStatus } from '@/models/order';
+import { OrderStatus } from '@/models/order';
 
 export interface AuthPayload {
   type: AuthType;

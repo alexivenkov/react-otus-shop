@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Meta, OrdersState, ProductsState, Status } from '@/store/states';
+import { Meta, OrdersState, Status } from '@/store/states';
 import { CheckoutPayload, PaginationRequest } from '@/store/payloads';
 import { State } from '@/store';
-import { Order, OrderProduct } from '@/models/order';
+import { Order } from '@/models/order';
 
 export const ORDERS_SLICE = 'orders';
 
